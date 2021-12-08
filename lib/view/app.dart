@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mahjong_sharing_app/view/pages/home/home_page.dart';
+import 'package:mahjong_sharing_app/view/pages/root_page.dart';
 
 import '../constants.dart';
 
@@ -105,7 +106,7 @@ class App extends StatelessWidget {
             break;
         }
       },
-      home: const HomePage(),
+      home: const RootPage(),
     );
   }
 }

@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class RecordPage extends StatefulWidget {
+  const RecordPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<RecordPage> createState() => _RecordPageState();
 }
 
-class _HomePageState extends State<HomePage>
+class _RecordPageState extends State<RecordPage>
     with AutomaticKeepAliveClientMixin {
-  int _counter = 0;
-
   @override
   bool get wantKeepAlive => true;
 
@@ -21,11 +19,7 @@ class _HomePageState extends State<HomePage>
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const Text(
-            'You have pushed the button this many :',
-          ),
-          Text(
-            '$_counter',
-            style: Theme.of(context).textTheme.headline4,
+            'Record Page',
           ),
         ],
       ),
