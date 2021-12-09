@@ -14,15 +14,31 @@ class _SettingsPageState extends State<SettingsPage>
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text(
-            'Settings Page',
-          ),
-        ],
-      ),
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
+      children: <Widget>[
+        ListTile(
+          leading: Icon(Icons.account_circle),
+          title: Text('ユーザー管理'),
+          onTap: () {
+            print('tap ユーザー管理');
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.apartment),
+          title: Text('大会管理'),
+          onTap: () {
+            print('tap 大会管理');
+          },
+        ),
+        ListTile(
+          leading: Icon(Icons.addchart_sharp),
+          title: Text('ウマオカ設定'),
+          onTap: () {
+            print('tap 馬丘設定');
+          },
+        ),
+      ],
     );
   }
 }
