@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mahjong_sharing_app/view/pages/home/home_page.dart';
 import 'package:mahjong_sharing_app/view/pages/root_page.dart';
+import 'package:mahjong_sharing_app/view/pages/settings/manage_users/create_user/create_user_page.dart';
 import 'package:mahjong_sharing_app/view/pages/settings/manage_users/manage_users_page.dart';
 
 import '../constants.dart';
@@ -108,6 +109,11 @@ class App extends StatelessWidget {
             return MaterialPageRoute(
               settings: const RouteSettings(name: RouteName.manageUsers),
               builder: (context) => const ManageUsersPage(),
+            );
+          case RouteName.createUser:
+            return MaterialPageRoute(
+              settings: const RouteSettings(name: RouteName.createUser),
+              builder: (context) => const CreateUserPage(),
             );
 
           default:

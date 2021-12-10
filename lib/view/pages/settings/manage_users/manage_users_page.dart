@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../constants.dart';
+
 class ManageUsersPage extends StatelessWidget {
   const ManageUsersPage({Key? key}) : super(key: key);
 
@@ -17,6 +19,14 @@ class ManageUsersPage extends StatelessWidget {
         title: const Text('ユーザー管理'),
       ),
       body: Center(child: Text('manage users')),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => jumpToCreateUserPage(context),
+        child: Icon(Icons.add),
+      ),
     );
   }
+}
+
+void jumpToCreateUserPage(BuildContext context) {
+  Navigator.of(context).pushNamed(RouteName.createUser);
 }

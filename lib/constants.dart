@@ -12,4 +12,5 @@ class RouteName {
   // 設定*************************************
   static const settings = '/settings';
   static const manageUsers = '/settings/manage_users';
+  static const createUser = '/settings/user/create';
 }
