@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:reactive_forms/reactive_forms.dart';
@@ -15,9 +17,18 @@ class CreateUserViewModel extends ChangeNotifier {
       value: '',
     ),
   });
+  File? image;
 
   void resetForm() {
     form.control('name').value = '';
     form.control('icon').value = '';
+    image = null;
+
+    notifyListeners();
+  }
+
+  void changeIconImage(String path) {
+    image = File(path);
+    notifyListeners();
   }
 }

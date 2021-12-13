@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mahjong_sharing_app/view_model/create_user_view_model.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-class CreateUserPage extends StatelessWidget {
+class CreateUserPage extends ConsumerWidget {
   const CreateUserPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // TODO: 名前が他のメンバーと被っていないかチェックすること（最初にメンバー名のリストを引数でもらう）
     return Scaffold(
       appBar: AppBar(
@@ -15,6 +16,7 @@ class CreateUserPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pop();
+            ref.read(createUserProvider).resetForm();
           },
         ),
         centerTitle: true,
@@ -29,7 +31,7 @@ class CreateUserPage extends StatelessWidget {
       padding: const EdgeInsets.all(15),
       child: Column(
         children: <Widget>[
-          const _IconImage(),
+          const _IconSettings(),
           const _InputForm(),
           Expanded(child: Container()),
           const _SubmitButton(),
@@ -39,36 +41,49 @@ class CreateUserPage extends StatelessWidget {
   }
 }
 
-class _IconImage extends ConsumerWidget {
-  const _IconImage({Key? key}) : super(key: key);
+class _IconSettings extends ConsumerWidget {
+  const _IconSettings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String icon =
-        ref.watch(createUserProvider).form.control('icon').value;
-    if (icon.isEmpty) {
-      return Center(
-        child: Container(
-          padding: EdgeInsets.all(30),
-          child: TextButton(
-            style: TextButton.styleFrom(
-              primary: Colors.black,
-            ),
-            onPressed: () async {
-              print('on pressed');
-              // 画像取得
-              // iconに反映
-              // formに値をセット
-            },
-            child: const Icon(
-              Icons.account_circle_outlined,
-              size: 100,
-            ),
-          ),
+    final provider = ref.read(createUserProvider);
+    const defaultIconPath = 'assets/icons/default_icon.png';
+    final image = ref.watch(createUserProvider).image;
+    final picker = ImagePicker();
+
+    return Column(
+      children: [
+        const SizedBox(
+          height: 20,
         ),
-      );
-    } else {
-      return Center(child: Text(icon));
+        if (image == null)
+          const CircleAvatar(
+            radius: 40,
+            backgroundColor: Colors.white,
+            backgroundImage: AssetImage(defaultIconPath),
+          )
+        else
+          CircleAvatar(
+            radius: 40,
+            backgroundColor: Colors.white,
+            backgroundImage: FileImage(image),
+          ),
+        TextButton(
+          onPressed: () async {
+            await getImageFromCamera(picker, provider);
+          },
+          child: const Center(child: Text('アイコン変更')),
+        ),
+      ],
+    );
+  }
+
+  Future getImageFromCamera(
+      ImagePicker picker, CreateUserViewModel provider) async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      provider.changeIconImage(pickedFile.path);
     }
   }
 }
@@ -99,17 +114,6 @@ class _InputForm extends ConsumerWidget {
               ),
             ),
           ),
-          // ReactiveTextField(
-          //   formControlName: 'icon',
-          //   decoration: const InputDecoration(
-          //     icon: SizedBox(
-          //       width: 90,
-          //       child: Center(
-          //         child: Text('アイコン'),
-          //       ),
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -147,7 +151,8 @@ class _SubmitButton extends ConsumerWidget {
   }
 
   void _onSubmit(BuildContext context, CreateUserViewModel provider) {
-    // TODO: ユーザーをfirestoreに追加する
+    // TODO: firestorageに画像をアップロード
+    // TODO: ユーザーをfirestoreに追加する（名前、アイコンの画像パス）
     Navigator.of(context).pop();
     provider.resetForm();
   }
