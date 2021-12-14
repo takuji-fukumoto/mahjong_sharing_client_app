@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mahjong_sharing_app/view/helper/methods/loading_screen.dart';
 import 'package:mahjong_sharing_app/view_model/create_user_view_model.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+
+import '../../../../../constants.dart';
 
 class CreateUserPage extends ConsumerWidget {
   const CreateUserPage({Key? key}) : super(key: key);
@@ -70,7 +75,7 @@ class _IconSettings extends ConsumerWidget {
           ),
         TextButton(
           onPressed: () async {
-            await getImageFromCamera(picker, provider);
+            await getImageFromGallery(picker, provider);
           },
           child: const Center(child: Text('アイコン変更')),
         ),
@@ -78,7 +83,7 @@ class _IconSettings extends ConsumerWidget {
     );
   }
 
-  Future getImageFromCamera(
+  Future getImageFromGallery(
       ImagePicker picker, CreateUserViewModel provider) async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
@@ -139,9 +144,9 @@ class _SubmitButton extends ConsumerWidget {
           side: const BorderSide(),
         ),
         child: const Text('作成'),
-        onPressed: () {
+        onPressed: () async {
           if (provider.form.valid) {
-            _onSubmit(context, provider);
+            await _onSubmit(context, provider);
           } else {
             null;
           }
@@ -150,10 +155,17 @@ class _SubmitButton extends ConsumerWidget {
     );
   }
 
-  void _onSubmit(BuildContext context, CreateUserViewModel provider) {
-    // TODO: firestorageに画像をアップロード
-    // TODO: ユーザーをfirestoreに追加する（名前、アイコンの画像パス）
-    Navigator.of(context).pop();
+  Future _onSubmit(BuildContext context, CreateUserViewModel provider) async {
+    unawaited(loadingScreen(context));
+
+    var ret = await provider.createUserToRemote();
+    final snackBar = SnackBar(
+      content: Text(ret ? 'ユーザーを追加しました' : 'ユーザーの追加に失敗しました。もう一度お試しください'),
+      duration: const Duration(seconds: 3),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    Navigator.of(context).popUntil(ModalRoute.withName(RouteName.manageUsers));
     provider.resetForm();
   }
 }
