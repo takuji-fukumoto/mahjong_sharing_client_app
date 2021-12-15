@@ -20,7 +20,7 @@ class _RootPageState extends State<RootPage> {
 
   final _navBarItems = [
     NavigationBarItemModel(
-      title: 'Home',
+      title: '集計',
       page: const HomePage(),
       item: const BottomNavigationBarItem(
         icon: Icon(Icons.home),
@@ -28,7 +28,7 @@ class _RootPageState extends State<RootPage> {
       ),
     ),
     NavigationBarItemModel(
-      title: 'History',
+      title: '対局履歴',
       page: const HistoryPage(),
       item: const BottomNavigationBarItem(
         icon: Icon(Icons.dashboard),
@@ -36,7 +36,7 @@ class _RootPageState extends State<RootPage> {
       ),
     ),
     NavigationBarItemModel(
-      title: 'Record',
+      title: '戦績',
       page: const RecordPage(),
       item: const BottomNavigationBarItem(
         icon: Icon(Icons.dangerous),
@@ -44,7 +44,7 @@ class _RootPageState extends State<RootPage> {
       ),
     ),
     NavigationBarItemModel(
-      title: 'Settings',
+      title: '設定',
       page: const SettingsPage(),
       item: const BottomNavigationBarItem(
         icon: Icon(Icons.settings),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../constants.dart';
+
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -21,7 +23,7 @@ class _SettingsPageState extends State<SettingsPage>
           leading: Icon(Icons.account_circle),
           title: Text('ユーザー管理'),
           onTap: () {
-            print('tap ユーザー管理');
+            Navigator.of(context).pushNamed(RouteName.manageUsers);
           },
         ),
         ListTile(

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "377338010076",
+    "project_id": "mahjong-sharing-app",
+    "storage_bucket": "mahjong-sharing-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377338010076:android:d6d1ca255489260f379719",
+        "android_client_info": {
+          "package_name": "com.takuji.fukumoto.mahjong_sharing_app.mahjong_sharing_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377338010076-fj451o1j9qb8vj4rft3jrcpbvf2b6qi1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCMfZOcAkqsa7V1W7yD8zEToXHsN4gfWE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377338010076-fj451o1j9qb8vj4rft3jrcpbvf2b6qi1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "377338010076-7qs0044fm1brtjn6q7b281qvae48t0l9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.takuji.fukumoto.mahjongsharingapp.mahjongSharingApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
