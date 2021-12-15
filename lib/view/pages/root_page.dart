@@ -16,7 +16,7 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   PageController controller = PageController(initialPage: 0);
   int currentIndex = 0;
-  String title = 'Home';
+  String title = '集計';
 
   final _navBarItems = [
     NavigationBarItemModel(
@@ -24,23 +24,23 @@ class _RootPageState extends State<RootPage> {
       page: const HomePage(),
       item: const BottomNavigationBarItem(
         icon: Icon(Icons.home),
-        label: 'home',
+        label: '集計',
       ),
     ),
     NavigationBarItemModel(
       title: '対局履歴',
       page: const HistoryPage(),
       item: const BottomNavigationBarItem(
-        icon: Icon(Icons.dashboard),
-        label: 'history',
+        icon: Icon(Icons.history),
+        label: '対局履歴',
       ),
     ),
     NavigationBarItemModel(
       title: '戦績',
       page: const RecordPage(),
       item: const BottomNavigationBarItem(
-        icon: Icon(Icons.dangerous),
-        label: 'record',
+        icon: Icon(Icons.picture_in_picture),
+        label: '戦績',
       ),
     ),
     NavigationBarItemModel(
@@ -48,7 +48,7 @@ class _RootPageState extends State<RootPage> {
       page: const SettingsPage(),
       item: const BottomNavigationBarItem(
         icon: Icon(Icons.settings),
-        label: 'settings',
+        label: '設定',
       ),
     ),
   ];
