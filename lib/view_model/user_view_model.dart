@@ -3,8 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mahjong_sharing_app/model/user_model.dart';
 
-final manageUserProvider =
-    ChangeNotifierProvider((ref) => ManageUserViewModel());
+final userProvider = ChangeNotifierProvider((ref) => ManageUserViewModel());
 
 class ManageUserViewModel extends ChangeNotifier {
   Query<UserModel> registeredUsersQuery() {

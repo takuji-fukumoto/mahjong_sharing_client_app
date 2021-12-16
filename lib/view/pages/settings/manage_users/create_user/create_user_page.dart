@@ -17,6 +17,7 @@ class CreateUserPage extends ConsumerWidget {
     // TODO: 名前が他のメンバーと被っていないかチェックすること（最初にメンバー名のリストを引数でもらう）
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ThemeColor.mainTheme,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

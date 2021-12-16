@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mahjong_sharing_app/view/pages/home/home_page.dart';
 import 'package:mahjong_sharing_app/view/pages/root_page.dart';
+import 'package:mahjong_sharing_app/view/pages/settings/manage_league/create_league/create_league_page.dart';
+import 'package:mahjong_sharing_app/view/pages/settings/manage_league/manage_league_page.dart';
 import 'package:mahjong_sharing_app/view/pages/settings/manage_users/create_user/create_user_page.dart';
 import 'package:mahjong_sharing_app/view/pages/settings/manage_users/manage_users_page.dart';
 
@@ -11,90 +13,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
     return MaterialApp(
       theme: ThemeData(
-          // textTheme: GoogleFonts.montserratTextTheme(textTheme).copyWith(
-          //   headline1: GoogleFonts.montserrat(
-          //       textStyle: const TextStyle(
-          //         fontSize: 18,
-          //         fontWeight: FontWeight.w700,
-          //         color: Colors.white,
-          //         letterSpacing: 0.15,
-          //       )),
-          //   headline2: GoogleFonts.montserrat(
-          //       textStyle: const TextStyle(
-          //         fontSize: 14,
-          //         fontWeight: FontWeight.w400,
-          //         color: Colors.white,
-          //         letterSpacing: 0.15,
-          //       )),
-          //   headline3: GoogleFonts.montserrat(
-          //       textStyle: const TextStyle(
-          //         fontSize: 14,
-          //         fontWeight: FontWeight.w700,
-          //         color: Colors.white,
-          //         letterSpacing: 0.15,
-          //       )),
-          //   headline4: GoogleFonts.montserrat(
-          //       textStyle: const TextStyle(
-          //         fontSize: 12,
-          //         fontWeight: FontWeight.w700,
-          //         color: Colors.white,
-          //         letterSpacing: 0.15,
-          //       )),
-          //   headline5: GoogleFonts.montserrat(
-          //       textStyle: const TextStyle(
-          //         fontSize: 13,
-          //         fontWeight: FontWeight.w500,
-          //         color: Colors.white,
-          //         letterSpacing: 0.15,
-          //       )),
-          //   headline6: GoogleFonts.montserrat(
-          //       textStyle: const TextStyle(
-          //         fontWeight: FontWeight.w200,
-          //         letterSpacing: 0.15,
-          //       )),
-          //   subtitle1: GoogleFonts.montserrat(
-          //       textStyle: const TextStyle(
-          //         fontSize: 12,
-          //         fontWeight: FontWeight.w400,
-          //         color: Colors.white,
-          //         letterSpacing: 0.15,
-          //       )),
-          //   subtitle2: GoogleFonts.montserrat(
-          //       textStyle: const TextStyle(
-          //         fontWeight: FontWeight.w200,
-          //         letterSpacing: 0.15,
-          //       )),
-          //   bodyText1: GoogleFonts.montserrat(
-          //       textStyle: const TextStyle(
-          //         fontSize: 12.0,
-          //         fontWeight: FontWeight.w400,
-          //         color: Colors.white,
-          //         letterSpacing: 0.15,
-          //       )),
-          //   bodyText2: GoogleFonts.montserrat(
-          //       textStyle: const TextStyle(
-          //         fontSize: 10,
-          //         fontWeight: FontWeight.w400,
-          //         color: Colors.white,
-          //         letterSpacing: 0.15,
-          //       )),
-          //
-          //   caption: GoogleFonts.montserrat(
-          //       textStyle: const TextStyle(
-          //         fontWeight: FontWeight.w200,
-          //         letterSpacing: 0.15,
-          //       )),
-          //   overline: GoogleFonts.montserrat(
-          //       textStyle: const TextStyle(
-          //         fontWeight: FontWeight.w200,
-          //         letterSpacing: 0.15,
-          //       )),
-          // ),
-          ),
+        primaryColor: const Color.fromRGBO(164, 210, 44, 1),
+        primarySwatch: Colors.lightGreen,
+        colorScheme:
+            ColorScheme.fromSwatch().copyWith(secondary: Colors.green[400]),
+      ),
       initialRoute: RouteName.home,
       onGenerateRoute: (settings) {
         switch (settings.name) {
@@ -105,6 +30,8 @@ class App extends StatelessWidget {
             );
 
           // 設定ページ****************************************
+
+          // ユーザー管理
           case RouteName.manageUsers:
             return MaterialPageRoute(
               settings: const RouteSettings(name: RouteName.manageUsers),
@@ -114,6 +41,18 @@ class App extends StatelessWidget {
             return MaterialPageRoute(
               settings: const RouteSettings(name: RouteName.createUser),
               builder: (context) => const CreateUserPage(),
+            );
+
+          // リーグ管理
+          case RouteName.manageLeague:
+            return MaterialPageRoute(
+              settings: const RouteSettings(name: RouteName.manageLeague),
+              builder: (context) => const ManageLeaguePage(),
+            );
+          case RouteName.createLeague:
+            return MaterialPageRoute(
+              settings: const RouteSettings(name: RouteName.createLeague),
+              builder: (context) => const CreateLeaguePage(),
             );
 
           default:

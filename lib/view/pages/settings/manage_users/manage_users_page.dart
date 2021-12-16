@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:mahjong_sharing_app/model/user_model.dart';
 import 'package:mahjong_sharing_app/view/helper/widgets/loading_icon.dart';
-import 'package:mahjong_sharing_app/view_model/manage_user_view_model.dart';
+import 'package:mahjong_sharing_app/view_model/user_view_model.dart';
 
 import '../../../../constants.dart';
 
@@ -15,6 +15,7 @@ class ManageUsersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: ThemeColor.mainTheme,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
@@ -49,7 +50,7 @@ class _RegisteredUserList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(manageUserProvider);
+    final provider = ref.read(userProvider);
 
     return FirestoreListView<UserModel>(
       query: provider.registeredUsersQuery(),
@@ -57,11 +58,15 @@ class _RegisteredUserList extends ConsumerWidget {
         var user = snapshot.data();
 
         return Container(
-          margin: EdgeInsets.only(bottom: 5.0),
+          margin: const EdgeInsets.only(bottom: 5.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black38),
+            borderRadius: BorderRadius.circular(10),
+          ),
           child: ListTile(
             leading: _AvatarBuilder(user: user),
             title: Text(user.name),
-            tileColor: Color.fromRGBO(240, 240, 240, 1),
+            tileColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),

@@ -20,22 +20,22 @@ class _SettingsPageState extends State<SettingsPage>
       physics: const NeverScrollableScrollPhysics(),
       children: <Widget>[
         ListTile(
-          leading: Icon(Icons.account_circle),
-          title: Text('ユーザー管理'),
+          leading: const Icon(Icons.account_circle),
+          title: const Text('ユーザー管理'),
           onTap: () {
             Navigator.of(context).pushNamed(RouteName.manageUsers);
           },
         ),
         ListTile(
-          leading: Icon(Icons.apartment),
-          title: Text('大会管理'),
+          leading: const Icon(Icons.apartment),
+          title: const Text('リーグ管理'),
           onTap: () {
-            print('tap 大会管理');
+            Navigator.of(context).pushNamed(RouteName.manageLeague);
           },
         ),
         ListTile(
-          leading: Icon(Icons.addchart_sharp),
-          title: Text('ウマオカ設定'),
+          leading: const Icon(Icons.addchart_sharp),
+          title: const Text('ウマオカ設定'),
           onTap: () {
             print('tap 馬丘設定');
           },
