@@ -4,6 +4,7 @@ import 'package:mahjong_sharing_app/view/pages/history/history_page.dart';
 import 'package:mahjong_sharing_app/view/pages/record/record_page.dart';
 import 'package:mahjong_sharing_app/view/pages/settings/settings_page.dart';
 
+import '../../constants.dart';
 import 'home/home_page.dart';
 
 class RootPage extends StatefulWidget {
@@ -59,6 +60,8 @@ class _RootPageState extends State<RootPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(title),
+        backgroundColor: ThemeColor.mainTheme,
+        elevation: 0,
       ),
       body: PageView(
         controller: controller,
@@ -68,6 +71,7 @@ class _RootPageState extends State<RootPage> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: currentIndex,
+        selectedItemColor: ThemeColor.mainTheme,
         items: _navBarItems.map((e) => e.item).toList(),
         onTap: _onItemTapped,
       ),
