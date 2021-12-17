@@ -64,10 +64,26 @@ class _LeagueList extends ConsumerWidget {
           child: ListTile(
             title: Text(league.name),
             subtitle: _LeaguePeriod(league: league),
+            trailing: SizedBox(
+              width: 80,
+              child: Text(
+                league.description,
+                style: const TextStyle(
+                  color: Colors.black54,
+                ),
+                textAlign: TextAlign.left,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 3,
+              ),
+            ),
             tileColor: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
+            onTap: () {
+              Navigator.of(context).pushNamed(RouteName.editLeague,
+                  arguments: {'league': league});
+            },
           ),
         );
       },
