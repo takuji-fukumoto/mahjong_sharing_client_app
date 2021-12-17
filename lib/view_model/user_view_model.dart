@@ -12,7 +12,7 @@ class ManageUserViewModel extends ChangeNotifier {
         .orderBy('created_at', descending: true)
         .withConverter<UserModel>(
           fromFirestore: (snapshot, _) {
-            return UserModel.fromJson(snapshot.data()!);
+            return UserModel.fromJson(snapshot.id, snapshot.data()!);
           },
           toFirestore: (user, _) => user.toJson(),
         );

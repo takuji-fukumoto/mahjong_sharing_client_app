@@ -70,6 +70,10 @@ class _RegisteredUserList extends ConsumerWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
+            onTap: () {
+              Navigator.of(context)
+                  .pushNamed(RouteName.editUser, arguments: {'user': user});
+            },
           ),
         );
       },

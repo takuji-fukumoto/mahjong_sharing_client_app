@@ -194,7 +194,8 @@ class _SubmitButton extends ConsumerWidget {
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-    Navigator.of(context).popUntil(ModalRoute.withName(RouteName.manageLeague));
+    Navigator.of(context)
+        .popUntil(ModalRoute.withName(RouteName.manageLeagues));
     provider.form.reset();
   }
 }
