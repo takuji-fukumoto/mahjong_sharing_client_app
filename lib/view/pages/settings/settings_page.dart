@@ -30,7 +30,7 @@ class _SettingsPageState extends State<SettingsPage>
           leading: const Icon(Icons.apartment),
           title: const Text('リーグ管理'),
           onTap: () {
-            Navigator.of(context).pushNamed(RouteName.manageLeague);
+            Navigator.of(context).pushNamed(RouteName.manageLeagues);
           },
         ),
         ListTile(

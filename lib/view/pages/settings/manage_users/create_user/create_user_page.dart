@@ -78,7 +78,7 @@ class _IconSettings extends ConsumerWidget {
           onPressed: () async {
             await getImageFromGallery(picker, provider);
           },
-          child: const Center(child: Text('アイコン変更')),
+          child: const Text('アイコン変更'),
         ),
       ],
     );

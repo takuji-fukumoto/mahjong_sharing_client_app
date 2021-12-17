@@ -5,6 +5,7 @@ import 'package:mahjong_sharing_app/view/pages/settings/manage_league/create_lea
 import 'package:mahjong_sharing_app/view/pages/settings/manage_league/edit_league/edit_league_page.dart';
 import 'package:mahjong_sharing_app/view/pages/settings/manage_league/manage_league_page.dart';
 import 'package:mahjong_sharing_app/view/pages/settings/manage_users/create_user/create_user_page.dart';
+import 'package:mahjong_sharing_app/view/pages/settings/manage_users/edit_user/edit_user_page.dart';
 import 'package:mahjong_sharing_app/view/pages/settings/manage_users/manage_users_page.dart';
 
 import '../constants.dart';
@@ -43,11 +44,17 @@ class App extends StatelessWidget {
               settings: const RouteSettings(name: RouteName.createUser),
               builder: (context) => const CreateUserPage(),
             );
+          case RouteName.editUser:
+            return MaterialPageRoute(
+              settings: const RouteSettings(name: RouteName.editLeague),
+              builder: (context) => EditUserPage(
+                  arguments: settings.arguments as Map<dynamic, dynamic>),
+            );
 
           // リーグ管理
-          case RouteName.manageLeague:
+          case RouteName.manageLeagues:
             return MaterialPageRoute(
-              settings: const RouteSettings(name: RouteName.manageLeague),
+              settings: const RouteSettings(name: RouteName.manageLeagues),
               builder: (context) => const ManageLeaguePage(),
             );
           case RouteName.createLeague:

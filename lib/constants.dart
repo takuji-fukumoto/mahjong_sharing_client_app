@@ -17,9 +17,12 @@ class RouteName {
 
   // 設定**************************************
   static const settings = '/settings';
-  static const manageUsers = '/settings/user';
+
+  static const manageUsers = '/settings/users';
   static const createUser = '/settings/user/create';
-  static const manageLeague = '/settings/league';
+  static const editUser = '/settings/user/edit';
+
+  static const manageLeagues = '/settings/leagues';
   static const createLeague = '/settings/league/create';
   static const editLeague = '/settings/league/edit';
 }
