@@ -21,4 +21,5 @@ class RouteName {
   static const createUser = '/settings/user/create';
   static const manageLeague = '/settings/league';
   static const createLeague = '/settings/league/create';
+  static const editLeague = '/settings/league/edit';
 }

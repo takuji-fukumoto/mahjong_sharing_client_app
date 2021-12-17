@@ -12,7 +12,7 @@ class LeagueViewModel extends ChangeNotifier {
         .orderBy('created_at', descending: true)
         .withConverter<LeagueModel>(
           fromFirestore: (snapshot, _) {
-            return LeagueModel.fromJson(snapshot.data()!);
+            return LeagueModel.fromJson(snapshot.id, snapshot.data()!);
           },
           toFirestore: (league, _) => league.toJson(),
         );
