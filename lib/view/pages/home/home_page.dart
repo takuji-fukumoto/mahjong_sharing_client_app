@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage>
 
   Widget _pageBody() {
     return const Padding(
-      padding: EdgeInsets.only(top: 15, bottom: 30),
+      padding: EdgeInsets.only(top: 15, bottom: 50),
       child: _ResultTable(),
     );
   }
@@ -93,9 +93,11 @@ class _ResultTable extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(collectionResultsProvider);
+
     return HorizontalDataTable(
-      leftHandSideColumnWidth: 100,
-      rightHandSideColumnWidth: (provider.header.length - 1) * 100,
+      leftHandSideColumnWidth: CollectionResultsViewModel.leftSideColumnWidth,
+      rightHandSideColumnWidth: (provider.header.length - 1) *
+          CollectionResultsViewModel.leftSideColumnWidth,
       headerWidgets: provider.header,
       isFixedHeader: true,
       itemCount: provider.results.length, // TODO: データの数に変更する

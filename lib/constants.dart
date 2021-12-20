@@ -8,7 +8,7 @@ class RouteName {
   // ホーム*************************************
   static const home = '/';
   static const addPlayers = '/players/add';
-  static const inputRecord = '/record/input';
+  static const inputScore = '/score/input';
 
   // 履歴**************************************
   static const history = '/history';
