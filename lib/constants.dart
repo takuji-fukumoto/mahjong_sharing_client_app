@@ -25,4 +25,12 @@ class RouteName {
   static const manageLeagues = '/settings/leagues';
   static const createLeague = '/settings/league/create';
   static const editLeague = '/settings/league/edit';
+
+  static const editRoles = '/settings/roles/edit';
+}
+
+class LocalStorageKey {
+  static const bonusByRanking = 'bonus_by_ranking';
+  static const originPoints = 'origin_points';
+  static const topPrize = 'top_prize';
 }

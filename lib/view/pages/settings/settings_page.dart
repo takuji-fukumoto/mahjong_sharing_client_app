@@ -35,9 +35,9 @@ class _SettingsPageState extends State<SettingsPage>
         ),
         ListTile(
           leading: const Icon(Icons.addchart_sharp),
-          title: const Text('ウマオカ設定'),
+          title: const Text('ルール設定'),
           onTap: () {
-            print('tap 馬丘設定');
+            Navigator.of(context).pushNamed(RouteName.editRoles);
           },
         ),
       ],

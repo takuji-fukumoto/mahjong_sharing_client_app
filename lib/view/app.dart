@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mahjong_sharing_app/view/pages/home/home_page.dart';
 import 'package:mahjong_sharing_app/view/pages/root_page.dart';
+import 'package:mahjong_sharing_app/view/pages/settings/edit_roles/edit_roles_page.dart';
 import 'package:mahjong_sharing_app/view/pages/settings/manage_league/create_league/create_league_page.dart';
 import 'package:mahjong_sharing_app/view/pages/settings/manage_league/edit_league/edit_league_page.dart';
 import 'package:mahjong_sharing_app/view/pages/settings/manage_league/manage_league_page.dart';
@@ -67,6 +68,13 @@ class App extends StatelessWidget {
               settings: const RouteSettings(name: RouteName.editLeague),
               builder: (context) => EditLeaguePage(
                   arguments: settings.arguments as Map<dynamic, dynamic>),
+            );
+
+          // ルール設定
+          case RouteName.editRoles:
+            return MaterialPageRoute(
+              settings: const RouteSettings(name: RouteName.editRoles),
+              builder: (context) => const EditRolesPage(),
             );
 
           default:
