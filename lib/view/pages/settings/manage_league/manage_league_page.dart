@@ -22,6 +22,7 @@ class ManageLeaguePage extends StatelessWidget {
         ),
         centerTitle: true,
         title: const Text('リーグ管理'),
+        elevation: 0,
       ),
       body: _pageBody(),
       floatingActionButton: FloatingActionButton(

@@ -38,6 +38,7 @@ class EditUserPage extends ConsumerWidget {
             user: user,
           ),
         ],
+        elevation: 0,
       ),
       body: _pageBody(user),
     );

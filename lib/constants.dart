@@ -7,6 +7,7 @@ class ThemeColor {
 class RouteName {
   // ホーム*************************************
   static const home = '/';
+  static const addPlayers = '/players/add';
   static const inputRecord = '/record/input';
 
   // 履歴**************************************

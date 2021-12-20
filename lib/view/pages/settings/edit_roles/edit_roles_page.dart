@@ -22,6 +22,7 @@ class EditRolesPage extends ConsumerWidget {
         ),
         centerTitle: true,
         title: const Text('ルール設定'),
+        elevation: 0,
       ),
       body: FutureBuilder(
         future: ref.read(settingsProvider).initializeSettings(),
@@ -38,7 +39,7 @@ class EditRolesPage extends ConsumerWidget {
 
   Widget _pageBody() {
     return Padding(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: ListView(
         children: [
           _BonusSettings(),

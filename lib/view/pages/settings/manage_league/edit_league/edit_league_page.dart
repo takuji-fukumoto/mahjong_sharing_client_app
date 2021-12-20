@@ -36,6 +36,7 @@ class EditLeaguePage extends ConsumerWidget {
             league: league,
           ),
         ],
+        elevation: 0,
       ),
       body: _pageBody(league),
     );
