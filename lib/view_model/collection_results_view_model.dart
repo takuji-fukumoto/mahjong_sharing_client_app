@@ -2,72 +2,67 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:horizontal_data_table/refresh/hdt_refresh_controller.dart';
-import 'package:mahjong_sharing_app/model/result_model.dart';
+import 'package:mahjong_sharing_app/model/player_colmun_model.dart';
+import 'package:mahjong_sharing_app/model/round_score.dart';
 import 'package:mahjong_sharing_app/model/user_model.dart';
 
 final collectionResultsProvider =
     ChangeNotifierProvider((ref) => CollectionResultsViewModel());
 
 class CollectionResultsViewModel extends ChangeNotifier {
-  static const double leftSideColumnWidth = 70.0;
-  static const double rightSideColumnWidth = 80.0;
-  static const double tableItemHeight = 50.0;
+  final double leftSideColumnWidth = 70.0;
+  final double rightSideColumnWidth = 80.0;
+  final double tableItemHeight = 50.0;
 
   final tableController = HDTRefreshController();
 
-  List<Widget> header = [
-    _leftHeaderItem('Round'),
-  ];
-  Map<String, int> playerColumnIndex = {}; // プレイヤー名 -> カラムのindex
+  List<PlayerColumnModel> playerHeader = [];
 
   // 参加ユーザー
-  Map<String, bool> players = {};
+  List<UserModel> players = [];
 
-  // リザルト（リスト）
-  List<ResultModel> results = [];
+  // 各対局結果
+  List<RoundScoreModel> results = [];
 
   // ユーザー追加・解除
   void changePlayerStatus(UserModel user, bool isAdd) {
     if (isAdd) {
-      players[user.name] = isAdd;
+      players.add(user);
       addPlayerColumn(user);
-    } else {
-      players.remove(user.name);
+    } else if (!isAlreadyCorrected(user)) {
+      // 既に集計済みのプレイヤーだったら消さないようにする
+      players.removeWhere((element) => element.docId == user.docId);
       removePlayerColumn(user);
     }
     notifyListeners();
   }
 
+  bool isAlreadyCorrected(UserModel user) {
+    for (var result in results) {
+      for (var playerScore in result.playerScores) {
+        if (playerScore.user.docId == user.docId) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   void addPlayerColumn(UserModel user) {
-    header.add(_rightHeaderItem(user.name));
-    playerColumnIndex[user.name] = header.length - 1;
+    playerHeader.add(
+        PlayerColumnModel(user: user, header: _rightHeaderItem(user.name)));
     notifyListeners();
   }
 
   void removePlayerColumn(UserModel user) {
-    header.removeAt(playerColumnIndex[user.name]!);
+    playerHeader.removeWhere((element) => element.user.docId == user.docId);
     notifyListeners();
   }
 
-  static Widget _leftHeaderItem(String label) {
-    return Container(
-      child: Center(
-        child: Text(
-          label,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-      decoration: const BoxDecoration(
-        border: Border(
-          right: BorderSide(
-            color: Colors.black12,
-            width: 0.5,
-          ),
-        ),
-      ),
-      width: leftSideColumnWidth,
-      height: tableItemHeight,
-    );
+  // 集計結果追加
+  void addRoundResults(RoundScoreModel roundScore) {
+    results.add(roundScore);
+    notifyListeners();
   }
 
   Widget _rightHeaderItem(String label) {
@@ -95,7 +90,4 @@ class CollectionResultsViewModel extends ChangeNotifier {
       height: tableItemHeight,
     );
   }
-
-// 集計結果追加
-
 }

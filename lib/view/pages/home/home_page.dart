@@ -29,10 +29,10 @@ class _HomePageState extends State<HomePage>
           bottom: 15,
           child: _addUserButton(context),
         ),
-        Positioned(
+        const Positioned(
           right: 15,
           bottom: 15,
-          child: _addResultsButton(context),
+          child: _AddResultsButton(),
         ),
       ],
     );
@@ -48,15 +48,12 @@ class _HomePageState extends State<HomePage>
   Widget _addUserButton(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        // border: Border.all(color: Colors.black38),
         borderRadius: BorderRadius.circular(10),
         color: ThemeColor.mainTheme.withOpacity(0.7),
       ),
       child: TextButton(
         onPressed: () {
-          print('add user');
           Navigator.of(context).pushNamed(RouteName.addPlayers);
-          // TODO: 参加者設定ページに遷移する
         },
         child: const Text(
           '参加者設定',
@@ -67,8 +64,14 @@ class _HomePageState extends State<HomePage>
       ),
     );
   }
+}
 
-  Widget _addResultsButton(BuildContext context) {
+class _AddResultsButton extends ConsumerWidget {
+  const _AddResultsButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.read(collectionResultsProvider);
     return Container(
       padding: const EdgeInsets.all(3.0),
       decoration: BoxDecoration(
@@ -78,8 +81,27 @@ class _HomePageState extends State<HomePage>
       child: IconButton(
         color: Colors.white,
         onPressed: () {
-          print('add');
-          // TODO: 集計ページに遷移する
+          if (provider.players.length < 4) {
+            // TODO: アラートダイアログ出す
+            showDialog(
+              context: context,
+              builder: (_) {
+                return AlertDialog(
+                  title: const Text("集計"),
+                  content: const Text("参加プレイヤーを4人以上選択して下さい"),
+                  actions: <Widget>[
+                    TextButton(
+                      child: const Text("OK"),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                );
+              },
+            );
+          } else {
+            Navigator.of(context).pushNamed(RouteName.inputScore,
+                arguments: {'players': provider.players});
+          }
         },
         icon: const Icon(Icons.add),
       ),
@@ -95,10 +117,14 @@ class _ResultTable extends ConsumerWidget {
     final provider = ref.watch(collectionResultsProvider);
 
     return HorizontalDataTable(
-      leftHandSideColumnWidth: CollectionResultsViewModel.leftSideColumnWidth,
-      rightHandSideColumnWidth: (provider.header.length - 1) *
-          CollectionResultsViewModel.leftSideColumnWidth,
-      headerWidgets: provider.header,
+      leftHandSideColumnWidth: provider.leftSideColumnWidth,
+      rightHandSideColumnWidth:
+          (provider.playerHeader.length) * provider.rightSideColumnWidth,
+      headerWidgets: [
+        _leftHeaderItem(
+            'Round', provider.leftSideColumnWidth, provider.tableItemHeight),
+        for (var header in provider.playerHeader) header.header,
+      ],
       isFixedHeader: true,
       itemCount: provider.results.length, // TODO: データの数に変更する
       rowSeparatorWidget: const Divider(
@@ -120,11 +146,120 @@ class _ResultTable extends ConsumerWidget {
     );
   }
 
+  Widget _leftHeaderItem(String label, double width, double height) {
+    return Container(
+      child: Center(
+        child: Text(
+          label,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      decoration: const BoxDecoration(
+        border: Border(
+          right: BorderSide(
+            color: Colors.black38,
+            width: 0.8,
+          ),
+        ),
+      ),
+      width: width,
+      height: height,
+    );
+  }
+
   Widget _leftSideItemBuilder(BuildContext context, int index) {
-    return Text('aaa');
+    return LeftSideItem(index: index);
   }
 
   Widget _rightSideItemBuilder(BuildContext context, int index) {
-    return Text('bbb');
+    return RightSideItem(index: index);
+  }
+}
+
+class LeftSideItem extends ConsumerWidget {
+  final int index;
+  const LeftSideItem({Key? key, required this.index}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(collectionResultsProvider);
+
+    return Container(
+      child: Center(
+        child: Text(
+          '${index + 1}'.toString(),
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ),
+      decoration: const BoxDecoration(
+        border: Border(
+          right: BorderSide(
+            color: Colors.black38,
+            width: 0.8,
+          ),
+        ),
+      ),
+      width: provider.leftSideColumnWidth,
+      height: provider.tableItemHeight,
+    );
+  }
+}
+
+class RightSideItem extends ConsumerWidget {
+  final int index;
+  const RightSideItem({Key? key, required this.index}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(collectionResultsProvider);
+
+    return Row(
+      children: [
+        for (int i = 0; i < provider.players.length; i++)
+          if (provider.results[index].playerScores
+              .where(
+                  (element) => element.user.docId == provider.players[i].docId)
+              .isNotEmpty)
+            Container(
+              child: Center(
+                child: Text(
+                  provider.results[index].playerScores
+                      .firstWhere((element) =>
+                          element.user.docId == provider.players[i].docId)
+                      .score
+                      .toString(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+              decoration: const BoxDecoration(
+                border: Border(
+                  right: BorderSide(
+                    color: Colors.black12,
+                    width: 0.8,
+                  ),
+                ),
+              ),
+              width: provider.rightSideColumnWidth,
+              height: provider.tableItemHeight,
+            )
+          else
+            Container(
+              decoration: const BoxDecoration(
+                border: Border(
+                  right: BorderSide(
+                    color: Colors.black12,
+                    width: 0.8,
+                  ),
+                  bottom: BorderSide(
+                    color: Colors.black12,
+                    width: 0.8,
+                  ),
+                ),
+              ),
+              width: provider.rightSideColumnWidth,
+              height: provider.tableItemHeight,
+            ),
+      ],
+    );
   }
 }

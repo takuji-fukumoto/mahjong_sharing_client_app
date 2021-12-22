@@ -91,8 +91,9 @@ class _RegisteredUserListItem extends ConsumerWidget {
         onChanged: (value) {
           provider.changePlayerStatus(user, value);
         },
-        value: (provider.players.containsKey(user.name) &&
-            provider.players[user.name]!),
+        value: provider.players
+            .where((element) => element.docId == user.docId)
+            .isNotEmpty,
         inactiveIcon: null,
       ),
     );
