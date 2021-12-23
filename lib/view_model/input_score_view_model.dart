@@ -87,6 +87,23 @@ class InputScoreViewModel extends ChangeNotifier {
     return form.control('player${index + 1}_score').value as int;
   }
 
+  int playerRank(UserModel user) {
+    var index =
+        inputTargetPlayers.indexWhere((element) => element.docId == user.docId);
+    // 該当なしの場合-1
+    if (index == -1) {
+      return -1;
+    }
+    var targetScore = form.control('player${index + 1}_score').value as int;
+    var scores = [];
+    for (int i = 1; i <= 4; i++) {
+      scores.add(form.control('player${i}_score').value as int);
+    }
+    // TODO: 同点の場合席順を考慮する（変数追加するか）
+    scores.sort((a, b) => b.compareTo(a));
+    return scores.indexWhere((element) => element == targetScore) + 1;
+  }
+
   bool validateInput() {
     // 集計対象が4名揃っているか
     if (inputTargetPlayers.length != 4) {
@@ -108,15 +125,12 @@ class InputScoreViewModel extends ChangeNotifier {
   }
 
   RoundScoreModel collectInput() {
-    List<PlayerRoundScoreModel> scores = [];
+    List<PlayerRoundScoreModel> results = [];
     for (var player in inputTargetPlayers) {
-      scores
-          .add(PlayerRoundScoreModel(user: player, score: playerScore(player)));
+      results.add(PlayerRoundScoreModel(
+          user: player, rank: playerRank(player), score: playerScore(player)));
     }
-    // TODO: ウマ計算
 
-    // TODO: オカ計算
-
-    return RoundScoreModel(playerScores: scores);
+    return RoundScoreModel(playerScores: results);
   }
 }

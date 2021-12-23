@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mahjong_sharing_app/repository/settings_repository.dart';
 import 'package:mahjong_sharing_app/view/app.dart';
 
 Future<void> main() async {
@@ -9,5 +10,6 @@ Future<void> main() async {
   debugPaintSizeEnabled = false;
   // await dotenv.load();
   await Firebase.initializeApp();
+  await SettingsRepository().initializeSettings();
   runApp(const ProviderScope(child: App()));
 }

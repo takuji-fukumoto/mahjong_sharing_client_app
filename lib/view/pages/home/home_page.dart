@@ -226,7 +226,7 @@ class RightSideItem extends ConsumerWidget {
                   provider.results[index].playerScores
                       .firstWhere((element) =>
                           element.user.docId == provider.players[i].docId)
-                      .score
+                      .formattedTotalScore
                       .toString(),
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
@@ -247,10 +247,6 @@ class RightSideItem extends ConsumerWidget {
               decoration: const BoxDecoration(
                 border: Border(
                   right: BorderSide(
-                    color: Colors.black12,
-                    width: 0.8,
-                  ),
-                  bottom: BorderSide(
                     color: Colors.black12,
                     width: 0.8,
                   ),

@@ -9,6 +9,7 @@ class SettingModel {
     this.topPrize = 25000,
   });
 
+  // return each rank bonus => [1st, 2nd, 3rd, 4th]
   List<int> bonusPointsEachRanks() {
     var bonus = bonusByRanking.split('-');
     if (bonus.length < 2) {

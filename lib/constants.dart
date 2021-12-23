@@ -35,3 +35,9 @@ class LocalStorageKey {
   static const originPoints = 'origin_points';
   static const topPrize = 'top_prize';
 }
+
+class DefaultSetting {
+  static const bonusByRanking = '';
+  static const originPoints = '25000';
+  static const topPrize = '25000';
+}
