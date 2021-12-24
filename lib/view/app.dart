@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mahjong_sharing_app/view/pages/home/add_players/add_players_page.dart';
 import 'package:mahjong_sharing_app/view/pages/home/home_page.dart';
 import 'package:mahjong_sharing_app/view/pages/home/input_score/input_score_page.dart';
+import 'package:mahjong_sharing_app/view/pages/home/set_league/set_league_page.dart';
+import 'package:mahjong_sharing_app/view/pages/home/set_players/set_players_page.dart';
 import 'package:mahjong_sharing_app/view/pages/root_page.dart';
 import 'package:mahjong_sharing_app/view/pages/settings/edit_roles/edit_roles_page.dart';
 import 'package:mahjong_sharing_app/view/pages/settings/manage_league/create_league/create_league_page.dart';
@@ -36,10 +37,15 @@ class App extends StatelessWidget {
 
           // 集計ページ****************************************
 
-          case RouteName.addPlayers:
+          case RouteName.setPlayers:
             return MaterialPageRoute(
-              settings: const RouteSettings(name: RouteName.addPlayers),
-              builder: (context) => const AddPlayersPage(),
+              settings: const RouteSettings(name: RouteName.setPlayers),
+              builder: (context) => const SetPlayersPage(),
+            );
+          case RouteName.setLeague:
+            return MaterialPageRoute(
+              settings: const RouteSettings(name: RouteName.setLeague),
+              builder: (context) => const SetLeaguePage(),
             );
           case RouteName.inputScore:
             return MaterialPageRoute(

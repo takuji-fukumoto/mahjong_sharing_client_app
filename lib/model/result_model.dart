@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mahjong_sharing_app/model/league_model.dart';
 import 'package:mahjong_sharing_app/model/round_score.dart';
 
 class ResultModel {
-  late String leagueName;
+  late LeagueModel? league;
   late Timestamp startAt;
   late List<RoundScoreModel> scores;
 
   ResultModel({
-    required this.leagueName,
+    this.league,
     required this.startAt,
     required this.scores,
   });
