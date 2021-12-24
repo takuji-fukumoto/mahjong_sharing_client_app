@@ -11,8 +11,8 @@ import 'package:mahjong_sharing_app/view_model/user_view_model.dart';
 
 import '../../../../constants.dart';
 
-class AddPlayersPage extends StatelessWidget {
-  const AddPlayersPage({Key? key}) : super(key: key);
+class SetPlayersPage extends StatelessWidget {
+  const SetPlayersPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:horizontal_data_table/refresh/hdt_refresh_controller.dart';
+import 'package:mahjong_sharing_app/model/league_model.dart';
 import 'package:mahjong_sharing_app/model/player_colmun_model.dart';
 import 'package:mahjong_sharing_app/model/round_score.dart';
 import 'package:mahjong_sharing_app/model/user_model.dart';
@@ -21,6 +23,12 @@ class CollectionResultsViewModel extends ChangeNotifier {
   // 参加ユーザー
   List<UserModel> players = [];
 
+  // 設定リーグ
+  LeagueModel? targetLeague;
+
+  // 集計開始日
+  Timestamp? startAt;
+
   // 各対局結果
   List<RoundScoreModel> results = [];
 
@@ -34,6 +42,21 @@ class CollectionResultsViewModel extends ChangeNotifier {
       players.removeWhere((element) => element.docId == user.docId);
       removePlayerColumn(user);
     }
+    notifyListeners();
+  }
+
+  void changeLeague(LeagueModel league) {
+    // 既に選択されたリーグだった場合解除
+    if (targetLeague != null && targetLeague!.docId == league.docId) {
+      targetLeague = null;
+    } else {
+      targetLeague = league;
+    }
+    notifyListeners();
+  }
+
+  void setStartAt() {
+    startAt = Timestamp.now();
     notifyListeners();
   }
 
@@ -61,7 +84,12 @@ class CollectionResultsViewModel extends ChangeNotifier {
 
   // 集計結果追加
   void addRoundResults(RoundScoreModel roundScore) {
+    // 初回集計だった場合日付もセット
+    if (results.isEmpty) {
+      setStartAt();
+    }
     results.add(roundScore);
+
     notifyListeners();
   }
 
@@ -89,5 +117,11 @@ class CollectionResultsViewModel extends ChangeNotifier {
       width: rightSideColumnWidth,
       height: tableItemHeight,
     );
+  }
+
+  void resetResults() {
+    results.clear();
+    startAt = null;
+    notifyListeners();
   }
 }
