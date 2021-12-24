@@ -27,6 +27,7 @@ class CreateUserPage extends ConsumerWidget {
         ),
         centerTitle: true,
         title: const Text('ユーザー追加'),
+        elevation: 0,
       ),
       body: _pageBody(),
     );

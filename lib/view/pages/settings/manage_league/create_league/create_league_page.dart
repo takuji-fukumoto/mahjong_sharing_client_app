@@ -26,6 +26,7 @@ class CreateLeaguePage extends ConsumerWidget {
         ),
         centerTitle: true,
         title: const Text('リーグ追加'),
+        elevation: 0,
       ),
       body: _pageBody(),
     );

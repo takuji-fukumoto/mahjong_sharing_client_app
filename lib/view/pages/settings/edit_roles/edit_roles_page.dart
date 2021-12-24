@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:getwidget/components/dropdown/gf_dropdown.dart';
-import 'package:mahjong_sharing_app/view/helper/widgets/loading_icon.dart';
 import 'package:mahjong_sharing_app/view_model/settings_view_model.dart';
 
 import '../../../../../constants.dart';
@@ -22,23 +21,15 @@ class EditRolesPage extends ConsumerWidget {
         ),
         centerTitle: true,
         title: const Text('ルール設定'),
+        elevation: 0,
       ),
-      body: FutureBuilder(
-        future: ref.read(settingsProvider).initializeSettings(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return _pageBody();
-          } else {
-            return const LoadingIcon();
-          }
-        },
-      ),
+      body: _pageBody(),
     );
   }
 
   Widget _pageBody() {
     return Padding(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       child: ListView(
         children: [
           _BonusSettings(),
@@ -85,7 +76,7 @@ class _BonusSettings extends ConsumerWidget {
               dropdownButtonColor: Colors.white,
               value: provider.bonusByRanking,
               onChanged: (newValue) async {
-                await provider.setBonusByRanking(newValue as String);
+                provider.bonusByRanking = newValue as String;
               },
               items: _settings
                   .map((value) => DropdownMenuItem(
@@ -143,7 +134,7 @@ class _OriginPointSettings extends ConsumerWidget {
               dropdownButtonColor: Colors.white,
               value: provider.originPoints,
               onChanged: (newValue) async {
-                await provider.setOriginPoints(newValue as int);
+                provider.originPoints = newValue as int;
               },
               items: _settings
                   .map((value) => DropdownMenuItem(
@@ -196,7 +187,7 @@ class _TopPrizeSettings extends ConsumerWidget {
               dropdownButtonColor: Colors.white,
               value: provider.topPrize,
               onChanged: (newValue) async {
-                await provider.setTopPrize(newValue as int);
+                provider.topPrize = newValue as int;
               },
               items: _settings
                   .map((value) => DropdownMenuItem(

@@ -7,7 +7,8 @@ class ThemeColor {
 class RouteName {
   // ホーム*************************************
   static const home = '/';
-  static const inputRecord = '/record/input';
+  static const addPlayers = '/players/add';
+  static const inputScore = '/score/input';
 
   // 履歴**************************************
   static const history = '/history';
@@ -33,4 +34,10 @@ class LocalStorageKey {
   static const bonusByRanking = 'bonus_by_ranking';
   static const originPoints = 'origin_points';
   static const topPrize = 'top_prize';
+}
+
+class DefaultSetting {
+  static const bonusByRanking = '';
+  static const originPoints = '25000';
+  static const topPrize = '25000';
 }

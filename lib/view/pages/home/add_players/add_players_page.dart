@@ -2,14 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutterfire_ui/firestore.dart';
+import 'package:getwidget/components/checkbox_list_tile/gf_checkbox_list_tile.dart';
+import 'package:getwidget/types/gf_checkbox_type.dart';
 import 'package:mahjong_sharing_app/model/user_model.dart';
 import 'package:mahjong_sharing_app/view/helper/widgets/loading_icon.dart';
+import 'package:mahjong_sharing_app/view_model/collection_results_view_model.dart';
 import 'package:mahjong_sharing_app/view_model/user_view_model.dart';
 
 import '../../../../constants.dart';
 
-class ManageUsersPage extends StatelessWidget {
-  const ManageUsersPage({Key? key}) : super(key: key);
+class AddPlayersPage extends StatelessWidget {
+  const AddPlayersPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +26,10 @@ class ManageUsersPage extends StatelessWidget {
           },
         ),
         centerTitle: true,
-        title: const Text('ユーザー管理'),
+        title: const Text('参加者設定'),
         elevation: 0,
       ),
       body: _pageBody(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => jumpToCreateUserPage(context),
-        child: const Icon(Icons.add),
-      ),
     );
   }
 
@@ -58,26 +57,45 @@ class _RegisteredUserList extends ConsumerWidget {
       itemBuilder: (context, snapshot) {
         var user = snapshot.data();
 
-        return Container(
-          margin: const EdgeInsets.only(bottom: 5.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black38),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: ListTile(
-            leading: _AvatarBuilder(user: user),
-            title: Text(user.name),
-            tileColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            onTap: () {
-              Navigator.of(context)
-                  .pushNamed(RouteName.editUser, arguments: {'user': user});
-            },
-          ),
-        );
+        return _RegisteredUserListItem(user: user);
       },
+    );
+  }
+}
+
+class _RegisteredUserListItem extends ConsumerWidget {
+  final UserModel user;
+  const _RegisteredUserListItem({Key? key, required this.user})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(collectionResultsProvider);
+    return Container(
+      margin: const EdgeInsets.only(bottom: 5.0),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black38),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: GFCheckboxListTile(
+        titleText: user.name,
+        avatar: _AvatarBuilder(user: user),
+        size: 25,
+        activeBgColor: Colors.green,
+        type: GFCheckboxType.circle,
+        activeIcon: const Icon(
+          Icons.check,
+          size: 15,
+          color: Colors.white,
+        ),
+        onChanged: (value) {
+          provider.changePlayerStatus(user, value);
+        },
+        value: provider.players
+            .where((element) => element.docId == user.docId)
+            .isNotEmpty,
+        inactiveIcon: null,
+      ),
     );
   }
 }
@@ -133,8 +151,4 @@ class _AvatarBuilder extends StatelessWidget {
       backgroundImage: image,
     );
   }
-}
-
-void jumpToCreateUserPage(BuildContext context) {
-  Navigator.of(context).pushNamed(RouteName.createUser);
 }
