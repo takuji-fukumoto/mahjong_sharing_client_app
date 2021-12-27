@@ -121,19 +121,31 @@ class RightSideItem extends ConsumerWidget {
         for (var player in provider.players)
           if (provider.results[index].findUserScore(player) != null)
             Container(
-              child: Center(
-                child: Text(
-                  provider.results[index]
-                      .findUserScore(player)!
-                      .formattedTotalScore
-                      .toString(),
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: scoreColor(provider.results[index]
-                        .findUserScore(player)!
-                        .formattedTotalScore),
+              child: Stack(
+                children: [
+                  if (provider.results[index].findUserScore(player)!.rank == 1)
+                    Center(
+                      child: Icon(
+                        Icons.emoji_events_outlined,
+                        color: Colors.lightBlue.withOpacity(0.2),
+                        size: 40,
+                      ),
+                    ),
+                  Center(
+                    child: Text(
+                      provider.results[index]
+                          .findUserScore(player)!
+                          .formattedTotalScore
+                          .toString(),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: scoreColor(provider.results[index]
+                            .findUserScore(player)!
+                            .formattedTotalScore),
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
               decoration: BoxDecoration(
                 color:
