@@ -13,7 +13,7 @@ class CreateLeagueViewModel extends ChangeNotifier {
   final form = FormGroup({
     'name': FormControl<String>(
       value: '',
-      validators: [Validators.required, Validators.maxLength(10)],
+      validators: [Validators.required, Validators.maxLength(20)],
     ),
     'start_at': FormControl<DateTime>(
       value: null,

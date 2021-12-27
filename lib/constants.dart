@@ -2,6 +2,7 @@ import 'dart:ui';
 
 class ThemeColor {
   static const mainTheme = Color.fromRGBO(79, 179, 71, 0.8862745098039215);
+  static const tableZebra = Color.fromRGBO(240, 240, 240, 1);
 }
 
 class RouteName {
