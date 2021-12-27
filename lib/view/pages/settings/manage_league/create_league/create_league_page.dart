@@ -61,7 +61,7 @@ class _InputForm extends ConsumerWidget {
             textAlign: TextAlign.center,
             validationMessages: (control) => {
               ValidationMessage.required: '名前を入力してください。',
-              ValidationMessage.maxLength: '10文字以内で入力してください。',
+              ValidationMessage.maxLength: '20文字以内で入力してください。',
             },
             decoration: const InputDecoration(
               icon: SizedBox(

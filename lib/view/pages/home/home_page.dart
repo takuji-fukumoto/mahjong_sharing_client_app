@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:horizontal_data_table/horizontal_data_table.dart';
 import 'package:intl/intl.dart';
+import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:mahjong_sharing_app/constants.dart';
+import 'package:mahjong_sharing_app/view/pages/home/result_table.dart';
+import 'package:mahjong_sharing_app/view/pages/home/total_score_table.dart';
 import 'package:mahjong_sharing_app/view_model/collection_results_view_model.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,8 +16,27 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
+  var _controllers = LinkedScrollControllerGroup();
+  var _dataTableController = ScrollController();
+  var _totalTableController = ScrollController();
+
   @override
   bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    _controllers = LinkedScrollControllerGroup();
+    _dataTableController = _controllers.addAndGet();
+    _totalTableController = _controllers.addAndGet();
+  }
+
+  @override
+  void dispose() {
+    _dataTableController.dispose();
+    _totalTableController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +49,10 @@ class _HomePageState extends State<HomePage>
           left: 15,
           top: 15,
           child: _Description(),
+        ),
+        Positioned(
+          bottom: 80,
+          child: TotalScoreTable(controller: _totalTableController),
         ),
         Positioned(
           left: 15,
@@ -44,9 +69,9 @@ class _HomePageState extends State<HomePage>
   }
 
   Widget _pageBody() {
-    return const Padding(
-      padding: EdgeInsets.only(top: 50, bottom: 50),
-      child: _ResultTable(),
+    return Padding(
+      padding: const EdgeInsets.only(top: 50, bottom: 130),
+      child: ResultTable(controller: _dataTableController),
     );
   }
 
@@ -117,157 +142,6 @@ class _Description extends ConsumerWidget {
         fontSize: 16,
         fontWeight: FontWeight.w600,
       ),
-    );
-  }
-}
-
-class _ResultTable extends ConsumerWidget {
-  const _ResultTable({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(collectionResultsProvider);
-
-    return HorizontalDataTable(
-      leftHandSideColumnWidth: provider.leftSideColumnWidth,
-      rightHandSideColumnWidth:
-          (provider.playerHeader.length) * provider.rightSideColumnWidth,
-      headerWidgets: [
-        _leftHeaderItem(
-            'Round', provider.leftSideColumnWidth, provider.tableItemHeight),
-        for (var header in provider.playerHeader) header.header,
-      ],
-      isFixedHeader: true,
-      itemCount: provider.results.length, // TODO: データの数に変更する
-      rowSeparatorWidget: const Divider(
-        color: Colors.black54,
-        height: 1.0,
-        thickness: 0.0,
-      ),
-      htdRefreshController: provider.tableController,
-      leftSideItemBuilder: _leftSideItemBuilder,
-      rightSideItemBuilder: _rightSideItemBuilder,
-      enablePullToRefresh: true,
-      refreshIndicator: const WaterDropHeader(),
-      refreshIndicatorHeight: 60,
-      onRefresh: () async {
-        //Do sth
-        await Future.delayed(const Duration(milliseconds: 500));
-        provider.tableController.refreshCompleted();
-      },
-    );
-  }
-
-  Widget _leftHeaderItem(String label, double width, double height) {
-    return Container(
-      child: Center(
-        child: Text(
-          label,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-      decoration: const BoxDecoration(
-        border: Border(
-          right: BorderSide(
-            color: Colors.black38,
-            width: 0.8,
-          ),
-        ),
-      ),
-      width: width,
-      height: height,
-    );
-  }
-
-  Widget _leftSideItemBuilder(BuildContext context, int index) {
-    return LeftSideItem(index: index);
-  }
-
-  Widget _rightSideItemBuilder(BuildContext context, int index) {
-    return RightSideItem(index: index);
-  }
-}
-
-class LeftSideItem extends ConsumerWidget {
-  final int index;
-  const LeftSideItem({Key? key, required this.index}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(collectionResultsProvider);
-
-    return Container(
-      child: Center(
-        child: Text(
-          '${index + 1}'.toString(),
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-      ),
-      decoration: const BoxDecoration(
-        border: Border(
-          right: BorderSide(
-            color: Colors.black38,
-            width: 0.8,
-          ),
-        ),
-      ),
-      width: provider.leftSideColumnWidth,
-      height: provider.tableItemHeight,
-    );
-  }
-}
-
-class RightSideItem extends ConsumerWidget {
-  final int index;
-  const RightSideItem({Key? key, required this.index}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(collectionResultsProvider);
-
-    return Row(
-      children: [
-        for (int i = 0; i < provider.players.length; i++)
-          if (provider.results[index].playerScores
-              .where(
-                  (element) => element.user.docId == provider.players[i].docId)
-              .isNotEmpty)
-            Container(
-              child: Center(
-                child: Text(
-                  provider.results[index].playerScores
-                      .firstWhere((element) =>
-                          element.user.docId == provider.players[i].docId)
-                      .formattedTotalScore
-                      .toString(),
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              decoration: const BoxDecoration(
-                border: Border(
-                  right: BorderSide(
-                    color: Colors.black12,
-                    width: 0.8,
-                  ),
-                ),
-              ),
-              width: provider.rightSideColumnWidth,
-              height: provider.tableItemHeight,
-            )
-          else
-            Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  right: BorderSide(
-                    color: Colors.black12,
-                    width: 0.8,
-                  ),
-                ),
-              ),
-              width: provider.rightSideColumnWidth,
-              height: provider.tableItemHeight,
-            ),
-      ],
     );
   }
 }

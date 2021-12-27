@@ -71,6 +71,18 @@ class CollectionResultsViewModel extends ChangeNotifier {
     return false;
   }
 
+  int totalScore(UserModel user) {
+    int total = 0;
+    for (var result in results) {
+      var targetScore = result.playerScores
+          .where((element) => element.user.docId == user.docId);
+      if (targetScore.isNotEmpty) {
+        total = total + targetScore.first.formattedTotalScore;
+      }
+    }
+    return total;
+  }
+
   void addPlayerColumn(UserModel user) {
     playerHeader.add(
         PlayerColumnModel(user: user, header: _rightHeaderItem(user.name)));
