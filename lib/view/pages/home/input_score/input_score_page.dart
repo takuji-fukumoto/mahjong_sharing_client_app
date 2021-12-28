@@ -19,9 +19,20 @@ class InputScorePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final players = arguments['players'] as List<UserModel>;
+    final targetIndex = arguments['target_index'] as int?;
 
     // ターゲットユーザーが参加者に選択されているか確認
-    ref.read(inputScoreProvider).checkTargetPlayer(players);
+    var provider = ref.read(inputScoreProvider);
+    provider.checkTargetPlayer(players);
+
+    if (targetIndex != null) {
+      provider.targetIndex = targetIndex;
+      var targetResult =
+          ref.read(collectionResultsProvider).results[targetIndex];
+      provider.setInputPlayerAndScore(targetResult.playerScores);
+    } else {
+      provider.targetIndex = -1;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +45,7 @@ class InputScorePage extends ConsumerWidget {
           },
         ),
         centerTitle: true,
-        title: const Text('対局集計'),
+        title: Text(targetIndex != null ? '対局編集' : '対局集計'),
         elevation: 0,
       ),
       body: _pageBody(),
@@ -272,7 +283,8 @@ class _SubmitButton extends ConsumerWidget {
     }
 
     var roundResult = inputProvider.collectInput();
-    collectionProvider.addRoundResults(roundResult);
+    collectionProvider.addRoundResults(roundResult,
+        targetIndex: inputProvider.targetIndex);
 
     Navigator.of(context).popUntil(ModalRoute.withName(RouteName.home));
     inputProvider.form.reset();

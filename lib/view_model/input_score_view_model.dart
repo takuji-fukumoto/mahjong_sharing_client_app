@@ -13,6 +13,9 @@ class InputScoreViewModel extends ChangeNotifier {
   // 集計対象ユーザー
   List<UserModel> inputTargetPlayers = [];
 
+  // 集計対象データ（-1：指定なし）
+  int targetIndex = -1;
+
   final form = FormGroup({
     'player1_score': FormControl<int>(
       value: null,
@@ -42,6 +45,14 @@ class InputScoreViewModel extends ChangeNotifier {
     }
     for (var deleteTarget in deleteUsers) {
       removeTargetPlayer(deleteTarget);
+    }
+  }
+
+  void setInputPlayerAndScore(List<PlayerRoundScoreModel> playerScores) {
+    inputTargetPlayers.clear();
+    for (var i = 0; i < playerScores.length; i++) {
+      inputTargetPlayers.add(playerScores[i].user);
+      form.control('player${i + 1}_score').value = playerScores[i].score;
     }
   }
 
