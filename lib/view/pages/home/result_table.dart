@@ -116,66 +116,73 @@ class RightSideItem extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(collectionResultsProvider);
 
-    return Row(
-      children: [
-        for (var player in provider.players)
-          if (provider.results[index].findUserScore(player) != null)
-            Container(
-              child: Stack(
-                children: [
-                  if (provider.results[index].findUserScore(player)!.rank == 1)
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).pushNamed(RouteName.inputScore,
+            arguments: {'players': provider.players, 'target_index': index});
+      },
+      child: Row(
+        children: [
+          for (var player in provider.players)
+            if (provider.results[index].findUserScore(player) != null)
+              Container(
+                child: Stack(
+                  children: [
+                    if (provider.results[index].findUserScore(player)!.rank ==
+                        1)
+                      Center(
+                        child: Icon(
+                          Icons.emoji_events_outlined,
+                          color: Colors.lightBlue.withOpacity(0.2),
+                          size: 40,
+                        ),
+                      ),
                     Center(
-                      child: Icon(
-                        Icons.emoji_events_outlined,
-                        color: Colors.lightBlue.withOpacity(0.2),
-                        size: 40,
-                      ),
-                    ),
-                  Center(
-                    child: Text(
-                      provider.results[index]
-                          .findUserScore(player)!
-                          .formattedTotalScore
-                          .toString(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: scoreColor(provider.results[index]
+                      child: Text(
+                        provider.results[index]
                             .findUserScore(player)!
-                            .formattedTotalScore),
+                            .formattedTotalScore
+                            .toString(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: scoreColor(provider.results[index]
+                              .findUserScore(player)!
+                              .formattedTotalScore),
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              decoration: BoxDecoration(
-                color:
-                    (index + 1).isEven ? ThemeColor.tableZebra : Colors.white,
-                border: const Border(
-                  right: BorderSide(
-                    color: Colors.black12,
-                    width: 0.8,
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  color:
+                      (index + 1).isEven ? ThemeColor.tableZebra : Colors.white,
+                  border: const Border(
+                    right: BorderSide(
+                      color: Colors.black12,
+                      width: 0.8,
+                    ),
                   ),
                 ),
-              ),
-              width: provider.rightSideColumnWidth,
-              height: provider.tableItemHeight,
-            )
-          else
-            Container(
-              decoration: BoxDecoration(
-                color:
-                    (index + 1).isEven ? ThemeColor.tableZebra : Colors.white,
-                border: const Border(
-                  right: BorderSide(
-                    color: Colors.black12,
-                    width: 0.8,
+                width: provider.rightSideColumnWidth,
+                height: provider.tableItemHeight,
+              )
+            else
+              Container(
+                decoration: BoxDecoration(
+                  color:
+                      (index + 1).isEven ? ThemeColor.tableZebra : Colors.white,
+                  border: const Border(
+                    right: BorderSide(
+                      color: Colors.black12,
+                      width: 0.8,
+                    ),
                   ),
                 ),
+                width: provider.rightSideColumnWidth,
+                height: provider.tableItemHeight,
               ),
-              width: provider.rightSideColumnWidth,
-              height: provider.tableItemHeight,
-            ),
-      ],
+        ],
+      ),
     );
   }
 }

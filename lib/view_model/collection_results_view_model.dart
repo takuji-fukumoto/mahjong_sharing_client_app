@@ -95,12 +95,17 @@ class CollectionResultsViewModel extends ChangeNotifier {
   }
 
   // 集計結果追加
-  void addRoundResults(RoundScoreModel roundScore) {
+  void addRoundResults(RoundScoreModel roundScore, {int targetIndex = -1}) {
     // 初回集計だった場合日付もセット
     if (results.isEmpty) {
       setStartAt();
     }
-    results.add(roundScore);
+    // ターゲットが指定されている場合上書き
+    if (targetIndex != -1) {
+      results[targetIndex] = roundScore;
+    } else {
+      results.add(roundScore);
+    }
 
     notifyListeners();
   }
